@@ -600,7 +600,7 @@ class EventBase(models.Model):
         return "/event/%s/" % self.id
     
     def next_occurrences(self):
-        from events.periods import Period
+        from eventtools.periods import Period
         first = False
         last = False
         for gen in self.generators.all():
