@@ -38,18 +38,37 @@
 			                <th><a href="?ot=desc&amp;o=2">Weekday</a></th>
 			                <th><a href="?ot=desc&amp;o=3">Time</a></th>
 			                <th><a href="?ot=desc&amp;o=4">Altered?</a></th>
-			                <th><a href="?ot=desc&amp;o=5">Original day/time</a></th>
-			                <th><a href="?ot=desc&amp;o=6">Varied event info</a></th>
+			                <th><a href="?ot=desc&amp;o=5">Cancelled?</a></th>
+			                <th><a href="?ot=desc&amp;o=6">Hidden?</a></th>
+			                <th><a href="?ot=desc&amp;o=7">Full?</a></th>
+			                <th><a href="?ot=desc&amp;o=8">Original day/time</a></th>
+			                <th><a href="?ot=desc&amp;o=9">Varied event info</a></th>
 			            </tr>
 			        </thead>
 			        <tbody>
           			{% for occ in occurrences %}
-                  <tr class="{% cycle 'row1' 'row2' %}">
-                  {% if occ.id %}
-                  <th><a href="{{ occ_change_url }}/{{ occ.id }}">{{ occ.start|date:"jS" }}</a></th><td>{{ occ.start|date:"l" }}</td><td>{{ occ.unvaried_start|date:"P" }}</td><td><img src="{% admin_media_prefix %}img/admin/icon-yes.gif" alt="True" /></td><td>{{ occ.unvaried_range_string }}</td><td>{{ occ.varied_event }}</td>
-                  {% else %}  
-                  <th><a href="../create_exception/{{ occ.generator.id }}/{{ occ.start.year }}-{{ occ.start.month }}-{{ occ.start.day }}/{{ occ.start.hour }}-{{ occ.start.minute }}-{{ occ.start.second }}/">{{ occ.start|date:"jS" }}</a></th><td>{{ occ.start|date:"l" }}</td><td>{{ occ.start|date:"P" }}</td><td><img src="{% admin_media_prefix %}img/admin/icon-no.gif" alt="False" /></td><td></td><td>{{ occ.varied_event }}</td>
-                  {% endif %}
+                      <tr class="{% cycle 'row1' 'row2' %}">
+                        {% if occ.id %}
+                          <th><a href="{{ occ_change_url }}/{{ occ.id }}">{{ occ.start|date:"F jS" }}</a></th>
+                          <td>{{ occ.start|date:"l" }}</td>
+                          <td>{{ occ.unvaried_start|date:"P" }}</td>
+                          <td><img src="{% admin_media_prefix %}img/admin/icon-yes.gif" alt="Yes" /></td>
+                          <td><img src="{% admin_media_prefix %}img/admin/icon-{% if occ.cancelled %}yes{% else %}no{% endif %}.gif" alt="{% if occ.cancelled %}Yes{% else %}No{% endif %}" /></td>
+                          <td><img src="{% admin_media_prefix %}img/admin/icon-{% if occ.hide_from_lists %}yes{% else %}no{% endif %}.gif" alt="{% if occ.hide_from_lists %}Yes{% else %}No{% endif %}" /></td>
+                          <td><img src="{% admin_media_prefix %}img/admin/icon-{% if occ.full %}yes{% else %}no{% endif %}.gif" alt="{% if occ.full %}Yes{% else %}No{% endif %}" /></td>
+                          <td>{{ occ.unvaried_range_string }}</td>
+                          <td>{{ occ.varied_event }}</td>
+                        {% else %}
+                          <th><a href="../create_exception/{{ occ.generator.id }}/{{ occ.start.year }}-{{ occ.start.month }}-{{ occ.start.day }}/{{ occ.start.hour }}-{{ occ.start.minute }}-{{ occ.start.second }}/">{{ occ.start|date:"F jS" }}</a></th>
+                        <td>{{ occ.start|date:"l" }}</td>
+                        <td>{{ occ.start|date:"P" }}</td>
+                        <td><img src="{% admin_media_prefix %}img/admin/icon-no.gif" alt="No" /></td>
+                        <td><img src="{% admin_media_prefix %}img/admin/icon-no.gif" alt="No" /></td>
+                        <td><img src="{% admin_media_prefix %}img/admin/icon-no.gif" alt="No" /></td>
+                        <td><img src="{% admin_media_prefix %}img/admin/icon-no.gif" alt="No" /></td>
+                        <td></td>
+                        <td>{{ occ.varied_event }}</td>
+                        {% endif %}
                   </tr>
           			{% endfor %}			        
 					</tbody>

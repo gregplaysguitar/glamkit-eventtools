@@ -9,10 +9,11 @@
 #                                                          #
 ############################################################
 {% endcomment %}
+{% if show_header %}
     <tr> 
-    <th><a href="?date={{ links.prev|date:"Y.m.j" }}" title="{% trans "view previous month" %}">&lt;</a></th><th colspan="5">{{ month|date:"F, Y" }}</th><th><a href="?date={{ links.next|date:"Y.m.j" }}" title="{% trans "view next month" %}">&gt;</a></th> 
+    <th><a href="?date={{ links.prev|date:"Y-m-j" }}" title="{% trans "view previous month" %}">&lt;</a></th><th colspan="5">{{ month|date:"F, Y" }}</th><th><a href="?date={{ links.next|date:"Y-m-j" }}" title="{% trans "view next month" %}">&gt;</a></th> 
     </tr> 
-
+{% endif %}
 {% comment %}
 ############################################################
 #                                                          #
@@ -25,7 +26,7 @@
 
     <tr class="days">
         {% for day in month_calendar.0 %}
-        <th>{{ day.date|date:"l"|slice:":2" }}</th> 
+        <th>{{ day.date|date:"l"|slice:":1" }}</th> 
         {% endfor %}
     </tr> 
 </thead>

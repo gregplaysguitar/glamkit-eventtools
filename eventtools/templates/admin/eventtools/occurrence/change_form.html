@@ -1,6 +1,14 @@
 {% extends "admin/change_form.html" %}
 {% load i18n %}
 
+{% block extrahead %}
+{{ block.super }}
+<script type="text/javascript">
+  $(document).ready(function(){ 
+    $('#add_id__varied_event')[0].href += '?unvaried_event={{ original.unvaried_event.id }}';
+  });
+</script>
+{% endblock %}
 
 <!-- BREADCRUMBS -->
 {% block breadcrumbs %}{% if not is_popup %}

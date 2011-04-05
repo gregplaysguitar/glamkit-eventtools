@@ -52,7 +52,7 @@ class OccurrenceReplacer(object):
     """
     When getting a list of occurrences, the last thing that needs to be done
     before passing it forward is to make sure all of the occurrences that
-    have been stored in the datebase replace, in the list you are returning,
+    have been stored in the database replace, in the list you are returning,
     the generated ones that are equivalent.  This class makes this easier.
     """
     def __init__(self, exceptional_occurrences):

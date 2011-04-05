@@ -11,24 +11,30 @@ def occurrences(request, id, modeladmin):
     EventModel = modeladmin.model
     
     event = EventModel.objects.get(pk=id)
-    generators = event.generators.all()
-    first = event.get_first_occurrence().start
-    last = event.get_last_day()
     
-    if 'year' in request.GET and 'month' in request.GET:
-        period = Month(generators, datetime.datetime(int(request.GET.get('year')),int(request.GET.get('month')),1))
-    else:
-        now = datetime.datetime.now()
-        if first > now:
-            period = Month(generators, first)
+    hasnext = False
+    hasprev = False
+    period = None
+    occurrences = event.get_all_occurrences_if_possible()
+    if not occurrences:
+        generators = event.generators.all()
+        first = event.get_first_occurrence().start
+        last = event.get_last_day()
+        
+        if 'year' in request.GET and 'month' in request.GET:
+            period = Month(generators, datetime.datetime(int(request.GET.get('year')),int(request.GET.get('month')),1))
         else:
-            period = Month(generators, now)
-    hasprev = first < period.start
-    if not last:
-        hasnext = True
-    else:
-        hasnext = last > period.end 
-    occurrences = period.get_occurrences()
+            now = datetime.datetime.now()
+            if first > now:
+                period = Month(generators, first)
+            else:
+                period = Month(generators, now)
+        hasprev = first < period.start
+        if not last:
+            hasnext = True
+        else:
+            hasnext = last > period.end 
+        occurrences = period.get_even_hidden_occurrences()
     title = _("Select an occurrence to change")
     
     admin_url_name = ('admin:%s_%s_change' % (EventModel._meta.app_label, event.OccurrenceModel.__name__)).lower()

@@ -48,7 +48,7 @@ class Period(object):
     def __ne__(self, period):
         return self.start!=period.start or self.end!=period.end or self.events!=period.events
 
-    def _get_sorted_occurrences(self):
+    def _get_sorted_occurrences(self, hide_hidden=True):
         occurrences = []
         if hasattr(self, "occurrence_pool") and self.occurrence_pool is not None:
             for occurrence in self.occurrence_pool:
@@ -56,7 +56,7 @@ class Period(object):
                     occurrences.append(occurrence)
             return occurrences
         for event in self.events:
-            event_occurrences = event.get_occurrences(self.start, self.end)
+            event_occurrences = event.get_occurrences(self.start, self.end, hide_hidden)
             occurrences += event_occurrences
         return sorted(occurrences)
 
@@ -67,6 +67,18 @@ class Period(object):
         self._occurrences = occs
         return occs
     occurrences = property(cached_get_sorted_occurrences)
+    
+    """
+    We need to show hidden occurrences in the admin
+    """
+    def cached_get_sorted_even_hidden_occurrences(self):
+        if hasattr(self, '_occurrences'):
+            return self._occurrences
+        occs = self._get_sorted_occurrences(hide_hidden=False)
+        self._occurrences = occs
+        return occs
+    even_hidden_occurrences = property(cached_get_sorted_even_hidden_occurrences)
+    
 
     def get_exceptional_occurrences(self):
         if hasattr(self, '_exceptional_occurrences'):
@@ -108,7 +120,10 @@ class Period(object):
 
     def get_occurrences(self):
         return self.occurrences
-
+        
+    def get_even_hidden_occurrences(self):
+        return self.even_hidden_occurrences
+        
     def has_occurrences(self):
         for occurrence in self.occurrences:
             occurrence = self.classify_occurrence(occurrence)
@@ -131,6 +146,12 @@ class Period(object):
             yield self.create_sub_period(cls, period.start)
             period = period.next()
 
+    def get_next_occurrence(self, now = None):
+        now = now or datetime.datetime.now()
+#         if self.start < now < self.end:
+        for occ in self.get_occurrences():
+            if now < occ.start:
+                return occ
 
 class Year(Period):
     def __init__(self, events, date=None, parent_exceptional_occurrences=None):

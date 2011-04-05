@@ -1,0 +1,13 @@
+{% include 'eventtools/month_header.html' %}
+{% load week_calendar %}
+
+{% for day in week_calendar %}
+    <li>
+        {{ day.day }}
+        <ul>
+        {% for occurrence in day.occurrences %}
+            <li>{{ occurrence }}</li>
+        {% endfor %}
+        </ul>
+    </li>
+{% endfor %}
