@@ -1,4 +1,0 @@
-django-countries==1.0.3
-# need to use python-dateutil <2.x for python2.x
-python-dateutil==1.5
-vobject==0.8.1c
