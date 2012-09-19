@@ -1,7 +1,0 @@
--e git://github.com/django-mptt/django-mptt.git@384b1#egg=mptt
-# need to use python-dateutil <2.x for python2.x
-python-dateutil==1.5
-vobject==0.8.1c
--e git://github.com/ixc/glamkit-convenient.git@4df74828d1a9d18ef97e#egg=glamkit-convenient
--e git+git://github.com/ixc/django-jsonfield.git#egg=jsonfield
-FeinCMS==1.3.1

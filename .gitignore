@@ -1,7 +1,0 @@
-*.swp
-*~
-*.pyc
-/docs/_build/
-*.DS_Store
-glamkit_eventtools.egg-info
-.idea
