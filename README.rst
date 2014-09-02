@@ -1,6 +1,5 @@
-This repository has a new location
-----------------------------------
+This reposititory is deprecated (see 
+https://github.com/glamkit/glamkit-eventtools) but I'm keeping it around for
+the benefit of old projects. Don't use it in any new sites.
 
-``github.com/glamkit`` repositories have been deprecated in favour of the ixc forks. This repository is now at https://github.com/ixc/glamkit-eventtools.
 
-Please update your pip requirements etc. to use the new fork.
